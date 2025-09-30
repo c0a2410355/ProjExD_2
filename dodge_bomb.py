@@ -1,5 +1,7 @@
 import os
 import sys
+import random
+
 import pygame as pg
 
 
@@ -17,6 +19,15 @@ def main():
     clock = pg.time.Clock()
     tmr = 0
     DELTA = {pg.K_UP:(0,-5),pg.K_DOWN:(0,5),pg.K_RIGHT:(5,0),pg.K_LEFT:(-5,0),}
+
+    bb_img = pg.Surface((20,20))  # 赤い円を生成
+    pg.draw.circle(bb_img,(255,0,0),(10,10),10)
+    bb_img.set_colorkey((0 ,0 ,0 ))
+    bb_rct = bb_img.get_rect()
+    bb_rct.centerx = random.randint(0,WIDTH)  #爆弾のX座標セット
+    bb_rct.centery = random.randint(0,HEIGHT)  #爆弾のY座標セット
+    vx = 5
+    vy = 5
     while True:
         for event in pg.event.get():
             if event.type == pg.QUIT: 
@@ -25,6 +36,7 @@ def main():
 
         key_lst = pg.key.get_pressed()
         sum_mv = [0, 0]
+
         # if key_lst[pg.K_UP]:
         #     sum_mv[1] -= 5
         # if key_lst[pg.K_DOWN]:
@@ -33,13 +45,16 @@ def main():
         #     sum_mv[0] -= 5
         # if key_lst[pg.K_RIGHT]:
         #     sum_mv[0] += 5
+
         #書き直し
         for key,mv in DELTA.items():
             if key_lst[key]:
                 sum_mv[0] += mv[0]
                 sum_mv[1] += mv[1]
         kk_rct.move_ip(sum_mv)
+        bb_rct.move_ip(vx,vy)
         screen.blit(kk_img, kk_rct)
+        screen.blit(bb_img, bb_rct)
         pg.display.update()
         tmr += 1
         clock.tick(50)
