@@ -1,6 +1,7 @@
 import os
 import sys
 import random
+import time
 
 import pygame as pg
 
@@ -21,6 +22,28 @@ def check_bound(rct: pg.Rect) -> tuple[bool,bool]:
     if rct.top < 0 or HEIGHT < rct.bottom:
         tate = False  # 縦方向にはみ出している場合
     return (yoko,tate)
+
+def gameover(screen: pg.Surface) -> None:
+    # 背景
+    bg_img = pg.Surface((WIDTH,HEIGHT))
+    pg.draw.rect(bg_img, (0,0,0),pg.Rect(0,0,WIDTH,HEIGHT))
+    bg_img.set_alpha(150)
+    screen.blit(bg_img,[0,0])
+    # テキスト
+    font = pg.font.Font(None,80)
+    txt = font.render("GAME OVER",True,(255,255,255))
+    txt_width = txt.get_width() 
+    txt_height = txt.get_height()
+    screen.blit(txt,[(WIDTH - txt_width)/2,(HEIGHT - txt_height)/2])  # テキストを中央に配置
+    # 画像
+    kkSad_img = pg.image.load("fig/8.png")
+    kkSad2_img = pg.image.load("fig/8.png")
+    kkSad_width = kkSad_img.get_width()
+    kkSad_height = kkSad_img.get_height()
+    screen.blit(kkSad_img,[( ( WIDTH - kkSad_width + txt_width + kkSad_width) /2 ), ( HEIGHT - kkSad_height ) /2])
+    screen.blit(kkSad2_img,[( ( WIDTH - kkSad_width - txt_width - kkSad_width) /2 ), ( HEIGHT - kkSad_height ) /2])
+    pg.display.update()
+    time.sleep(5)
 
 
 def main():
@@ -77,6 +100,7 @@ def main():
         screen.blit(kk_img, kk_rct)
         screen.blit(bb_img, bb_rct)
         if kk_rct.colliderect(bb_rct):  # こうかとんの衝突判定
+            gameover(screen)
             return  # ゲームOVER
         pg.display.update()
         tmr += 1
