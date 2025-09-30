@@ -65,6 +65,10 @@ def init_bb_imgs() -> tuple[list[pg.Surface], list[int]]:
     return (bb_imgs,bb_accs)
 
 def get_kk_imgs() -> dict[tuple[int, int], pg.Surface]:
+    """
+    引数 なし
+    戻り値 [タプル(int xの移動量,int yの移動量),角度を変更した画像のSurface]の辞書型
+    """
     rkk_img = pg.transform.flip(pg.image.load("fig/3.png"), True, False)
     nkk_img = pg.image.load("fig/3.png")
     k_dict ={(0, 0) : pg.transform.rotozoom(rkk_img, 0, 0.9), # なし 
