@@ -76,6 +76,8 @@ def main():
             vy *= -1
         screen.blit(kk_img, kk_rct)
         screen.blit(bb_img, bb_rct)
+        if kk_rct.colliderect(bb_rct):  # こうかとんの衝突判定
+            return  # ゲームOVER
         pg.display.update()
         tmr += 1
         clock.tick(50)
