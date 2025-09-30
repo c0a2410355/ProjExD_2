@@ -67,15 +67,15 @@ def init_bb_imgs() -> tuple[list[pg.Surface], list[int]]:
 def get_kk_imgs() -> dict[tuple[int, int], pg.Surface]:
     rkk_img = pg.transform.flip(pg.image.load("fig/3.png"), True, False)
     nkk_img = pg.image.load("fig/3.png")
-    k_dict ={(0, 0) : pg.transform.rotozoom(rkk_img, 0, 0.9), #なし 
-            ( 5,-5) : pg.transform.rotozoom(rkk_img, 45, 0.9), #右上
-            ( 5, 0) : pg.transform.rotozoom(rkk_img, 0, 0.9), #右
-            ( 5, 5) : pg.transform.rotozoom(rkk_img, -45, 0.9), #右下
-            ( 0, 5) : pg.transform.rotozoom(rkk_img, -90, 0.9), #下
-            (-5, 5) : pg.transform.rotozoom(nkk_img , 45, 0.9), #左下
-            (-5, 0) : pg.transform.rotozoom(nkk_img , 0, 0.9), #左
-            (-5,-5) : pg.transform.rotozoom(nkk_img , -45, 0.9), #左上
-            ( 0,-5) : pg.transform.rotozoom(rkk_img, 90, 0.9), #上
+    k_dict ={(0, 0) : pg.transform.rotozoom(rkk_img, 0, 0.9), # なし 
+            ( 5,-5) : pg.transform.rotozoom(rkk_img, 45, 0.9), # 右上
+            ( 5, 0) : pg.transform.rotozoom(rkk_img, 0, 0.9), # 右
+            ( 5, 5) : pg.transform.rotozoom(rkk_img, -45, 0.9), # 右下
+            ( 0, 5) : pg.transform.rotozoom(rkk_img, -90, 0.9), # 下
+            (-5, 5) : pg.transform.rotozoom(nkk_img , 45, 0.9), # 左下
+            (-5, 0) : pg.transform.rotozoom(nkk_img , 0, 0.9), # 左
+            (-5,-5) : pg.transform.rotozoom(nkk_img , -45, 0.9), # 左上
+            ( 0,-5) : pg.transform.rotozoom(rkk_img, 90, 0.9), # 上
             }
     return k_dict
     
@@ -97,8 +97,8 @@ def main():
     pg.draw.circle(bb_img,(255,0,0),(10,10),10)
     bb_img.set_colorkey((0 ,0 ,0 ))
     bb_rct = bb_img.get_rect()
-    bb_rct.centerx = random.randint(0,WIDTH)  #爆弾のX座標セット
-    bb_rct.centery = random.randint(0,HEIGHT)  #爆弾のY座標セット
+    bb_rct.centerx = random.randint(0,WIDTH)  # 爆弾のX座標セット
+    bb_rct.centery = random.randint(0,HEIGHT)  # 爆弾のY座標セット
     vx = 3
     vy = 3
     while True:
@@ -120,7 +120,7 @@ def main():
         #     sum_mv[0] += 5
         if tmr%250 == 0 and ind < 10:
             ind += 1
-        #書き直し
+        # 書き直し
         for key,mv in DELTA.items():
             if key_lst[key]:
                 sum_mv[0] += mv[0]
