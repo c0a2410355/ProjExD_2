@@ -51,6 +51,10 @@ def gameover(screen: pg.Surface) -> None:
     time.sleep(5)
 
 def init_bb_imgs() -> tuple[list[pg.Surface], list[int]]:
+    """
+    引数なし
+    戻り値 : (Surface型のリスト、加速のリスト) のタプル
+    """
     bb_imgs = []
     for r in range(1, 11):
         bb_img = pg.Surface((20*r, 20*r))
@@ -60,6 +64,21 @@ def init_bb_imgs() -> tuple[list[pg.Surface], list[int]]:
     bb_accs = [a for a in range(1, 11)]  # 加速のリスト
     return (bb_imgs,bb_accs)
 
+def get_kk_imgs() -> dict[tuple[int, int], pg.Surface]:
+    rkk_img = pg.transform.flip(pg.image.load("fig/3.png"), True, False)
+    nkk_img = pg.image.load("fig/3.png")
+    k_dict ={(0, 0) : pg.transform.rotozoom(rkk_img, 0, 0.9), #なし 
+            ( 5,-5) : pg.transform.rotozoom(rkk_img, 45, 0.9), #右上
+            ( 5, 0) : pg.transform.rotozoom(rkk_img, 0, 0.9), #右
+            ( 5, 5) : pg.transform.rotozoom(rkk_img, -45, 0.9), #右下
+            ( 0, 5) : pg.transform.rotozoom(rkk_img, -90, 0.9), #下
+            (-5, 5) : pg.transform.rotozoom(nkk_img , 45, 0.9), #左下
+            (-5, 0) : pg.transform.rotozoom(nkk_img , 0, 0.9), #左
+            (-5,-5) : pg.transform.rotozoom(nkk_img , -45, 0.9), #左上
+            ( 0,-5) : pg.transform.rotozoom(rkk_img, 90, 0.9), #上
+            }
+    return k_dict
+    
 def main():
     pg.display.set_caption("逃げろ！こうかとん")
     screen = pg.display.set_mode((WIDTH, HEIGHT))
@@ -72,6 +91,7 @@ def main():
     DELTA = {pg.K_UP:(0,-5),pg.K_DOWN:(0,5),pg.K_RIGHT:(5,0),pg.K_LEFT:(-5,0),}
     bb_lst = init_bb_imgs()
     ind = 0
+    kk_imgs = get_kk_imgs()
 
     bb_img = pg.Surface((20,20))  # 赤い円を生成
     pg.draw.circle(bb_img,(255,0,0),(10,10),10)
@@ -115,6 +135,7 @@ def main():
             vx *= -1
         if not tate:
             vy *= -1
+        kk_img = kk_imgs[tuple(sum_mv)]
         screen.blit(kk_img, kk_rct)
         screen.blit(bb_lst[0][ind], bb_rct)
         if kk_rct.colliderect(bb_rct):  # こうかとんの衝突判定
